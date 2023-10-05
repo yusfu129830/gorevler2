@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>Yapılıcaklar Listesi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 40px;
+        }
+
+        .column {
+            float: left;
+            width: 33.33%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        li {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Yapılıcaklar Listesi</h1>
+
+    <div class="column">
+        <form id="formMustafa">
+            <label for="mustafaTask">Mustafanın gorevleri:</label>
+            <input type="text" id="mustafaTask" name="mustafaTask" required>
+            <button type="submit">Ekle</button>
+        </form>
+        <ul id="gorevlistesiMustafa"></ul>
+    </div>
+
+    <div class="column">
+        <form id="formYusuf">
+            <label for="yusufTask">Yusufun gorevleri:</label>
+            <input type="text" id="yusufTask" name="yusufTask" required>
+            <button type="submit">Ekle</button>
+        </form>
+        <ul id="gorevlistesiYusuf"></ul>
+    </div>
+
+    <div class="column">
+        <form id="formTaha">
+            <label for="tahaTask">Tahanın gorevleri:</label>
+            <input type="text" id="tahaTask" name="tahaTask" required>
+            <button type="submit">Ekle</button>
+        </form>
+        <ul id="gorevlistesiTaha"></ul>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const formMustafa = document.getElementById("formMustafa");
+            const formYusuf = document.getElementById("formYusuf");
+            const formTaha = document.getElementById("formTaha");
+
+            const gorevlistesiMustafa = document.getElementById("gorevlistesiMustafa");
+            const gorevlistesiYusuf = document.getElementById("gorevlistesiYusuf");
+            const gorevlistesiTaha = document.getElementById("gorevlistesiTaha");
+
+            formMustafa.addEventListener("submit", function(event) {
+                event.preventDefault();
+                const mustafaTask = document.getElementById("mustafaTask");
+                const task = mustafaTask.value.trim();
+                if (task !== "") {
+                    addTask(gorevlistesiMustafa, task);
+                    mustafaTask.value = "";
+                }
+            });
+
+            formYusuf.addEventListener("submit", function(event) {
+                event.preventDefault();
+                const yusufTask = document.getElementById("yusufTask");
+                const task = yusufTask.value.trim();
+                if (task !== "") {
+                    addTask(gorevlistesiYusuf, task);
+                    yusufTask.value = "";
+                }
+            });
+
+            formTaha.addEventListener("submit", function(event) {
+                event.preventDefault();
+                const tahaTask = document.getElementById("tahaTask");
+                const task = tahaTask.value.trim();
+                if (task !== "") {
+                    addTask(gorevlistesiTaha, task);
+                    tahaTask.value = "";
+                }
+            });
+
+            function addTask(gorevListesi, task) {
+        const listItem = document.createElement("li");
+        listItem.textContent = task;
+
+        listItem.addEventListener("click", function() {
+            listItem.classList.toggle("completed");
+            updateLocalStorage(); 
+        });
+
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Sil";
+        deleteButton.addEventListener("click", function() {
+            listItem.remove();
+            updateLocalStorage();
+        });
+
+        listItem.appendChild(deleteButton);
+        gorevListesi.appendChild(listItem);
+
+        updateLocalStorage(); 
+            }
+        });
+       
+       
+        function updateLocalStorage() {
+        localStorage.setItem("gorevlistesiMustafa", gorevlistesiMustafa.innerHTML);
+        localStorage.setItem("gorevlistesiYusuf", gorevlistesiYusuf.innerHTML);
+        localStorage.setItem("gorevlistesiTaha", gorevlistesiTaha.innerHTML);
+    }
+
+    function loadTasksFromLocalStorage() {
+        gorevlistesiMustafa.innerHTML = localStorage.getItem("gorevlistesiMustafa") || "";
+        gorevlistesiYusuf.innerHTML = localStorage.getItem("gorevlistesiYusuf") || "";
+        gorevlistesiTaha.innerHTML = localStorage.getItem("gorevlistesiTaha") || "";
+    }
+
+    loadTasksFromLocalStorage(); 
+    </script>
+</body>
+</html>
