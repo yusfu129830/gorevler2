@@ -146,19 +146,38 @@
         updateLocalStorage(); 
             }
         });
-       
+     
+        [gorevlistesiMustafa, gorevlistesiYusuf, gorevlistesiTaha].forEach(function (gorevListesi) {
+        gorevListesi.addEventListener("click", function(event) {
+            const clickedElement = event.target;
+            
+            
+            if (clickedElement.tagName === "BUTTON" && clickedElement.textContent === "Sil") {
+                const listItem = clickedElement.parentElement;
+                listItem.remove();
+                updateLocalStorage();
+            }
+        });
+    });
+    
+    loadTasksFromLocalStorage();
        
         function updateLocalStorage() {
-        localStorage.setItem("gorevlistesiMustafa", gorevlistesiMustafa.innerHTML);
-        localStorage.setItem("gorevlistesiYusuf", gorevlistesiYusuf.innerHTML);
-        localStorage.setItem("gorevlistesiTaha", gorevlistesiTaha.innerHTML);
-    }
+    console.log("Updating local storage");
+    localStorage.setItem("gorevlistesiMustafa", gorevlistesiMustafa.innerHTML);
+    localStorage.setItem("gorevlistesiYusuf", gorevlistesiYusuf.innerHTML);
+    localStorage.setItem("gorevlistesiTaha", gorevlistesiTaha.innerHTML);
+}
+function loadTasksFromLocalStorage() {
+    gorevlistesiMustafa.innerHTML = localStorage.getItem("gorevlistesiMustafa") || "";
+    gorevlistesiYusuf.innerHTML = localStorage.getItem("gorevlistesiYusuf") || "";
+    gorevlistesiTaha.innerHTML = localStorage.getItem("gorevlistesiTaha") || "";
+    console.log("Tasks loaded from local storage");
+}
 
-    function loadTasksFromLocalStorage() {
-        gorevlistesiMustafa.innerHTML = localStorage.getItem("gorevlistesiMustafa") || "";
-        gorevlistesiYusuf.innerHTML = localStorage.getItem("gorevlistesiYusuf") || "";
-        gorevlistesiTaha.innerHTML = localStorage.getItem("gorevlistesiTaha") || "";
-    }
+console.log(gorevlistesiMustafa.innerHTML);
+console.log(gorevlistesiYusuf.innerHTML);
+console.log(gorevlistesiTaha.innerHTML);
 
     loadTasksFromLocalStorage(); 
     </script>
